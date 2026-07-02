@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loona.cakes — ~where cozy begins~ </title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-creme: #fbf7f2; /* Роскошный кремовый фон */
+            --text-dark: #3a2a1d; /* Глубокий трюфельный цвет */
+            --accent-caramel: #9c7453; /* Мягкая карамель */
+            --accent-gold: #bda085; /* Нежное золото */
+            --glass-bg: rgba(255, 255, 255, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.6);
+            --shadow-sm: 0 10px 30px rgba(156, 116, 83, 0.05);
+            --shadow-lg: 0 20px 50px rgba(58, 42, 29, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-creme);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+
+            /* МНОЖЕСТВО БОЛЬШИХ И ОТЛИЧНО ВИДИМЫХ ПЕЧЕНЕК НА ФОНЕ */
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Ctext x='30' y='75' font-size='56' opacity='0.12'%3E%F0%9F%8D%AA%3C/text%3E%3Ctext x='110' y='155' font-size='56' opacity='0.12'%3E%F0%9F%8D%AA%3C/text%3E%3C/svg%3E");
+        }
+
+        /* Эстетичное оформление шапки сайта */
+        header {
+            text-align: center;
+            padding: 70px 20px 40px;
+            position: relative;
+        }
+
+        header .logo-wrapper {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+
+        h1 {
+            font-weight: 700;
+            font-size: 4.2rem;
+            color: var(--accent-brown);
+            letter-spacing: -1px;
+            line-height: 1.1;
+        }
+
+        p.subtitle {
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            color: var(--accent-gold);
+            font-weight: 600;
+            margin-top: 12px;
+        }
+
+        /* Декоративные парящие печеньки по бокам экрана (только на ПК) */
+        .floating-cookie {
+            position: absolute;
+            font-size: 2.8rem;
+            opacity: 0.15;
+            user-select: none;
+            pointer-events: none;
+            animation: float 6s ease-in-out infinite;
+        }
+        .c1 { top: 120px; left: 10%; animation-delay: 0s; }
+        .c2 { top: 280px; right: 8%; animation-delay: 2s; transform: rotate(25deg); }
+        .c3 { top: 600px; left: 6%; animation-delay: 4s; transform: rotate(-15deg); }
+        .c4 { top: 850px; right: 12%; animation-delay: 1s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(10deg); }
+        }
+
+        /* Основной контейнер меню */
+        .container {
+            max-width: 680px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 20px 60px;
+            flex-grow: 1;
+        }
+
+        /* Карточка категории в стиле матового стекла */
+        .category-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 32px;
+            padding: 35px;
+            margin-bottom: 35px;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(156, 116, 83, 0.08);
+            border-color: rgba(255,255,255,0.9);
+        }
+
+        .category-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .category-title span {
+            font-size: 1.5rem;
+            opacity: 0.9;
+        }
+
+        .menu-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        /* Интерактивная строка десерта */
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 12px;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            position: relative;
+        }
+
+        .menu-item:hover {
+            background-color: rgba(156, 116, 83, 0.06);
+            padding-left: 18px;
+        }
+
+        .item-name {
+            font-weight: 500;
+            font-size: 1.05rem;
+            color: var(--text-dark);
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Эффектная стрелочка, намекающая на клик */
+        .item-name::after {
+            content: '→';
+            font-size: 0.9rem;
+            opacity: 0;
+            color: var(--accent-caramel);
+            transition: all 0.25s ease;
+            transform: translateX(-5px);
+        }
+
+        .menu-item:hover .item-name::after {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Цена десерта */
+        .price {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--accent-caramel);
+            background: #ffffff;
+            padding: 6px 14px;
+            border-radius: 14px;
+            border: 1px solid rgba(156, 116, 83, 0.12);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+            transition: all 0.25s ease;
+        }
+
+        .menu-item:hover .price {
+            background: var(--accent-caramel);
+            color: #ffffff;
+            border-color: var(--accent-caramel);
+            box-shadow: 0 4px 12px rgba(156, 116, 83, 0.2);
+        }
+
+        /* --- ВСПЛЫВАЮЩЕЕ ПРЕМИУМ ОКНО (MODAL) --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(58, 42, 29, 0.25);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-box {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 36px;
+            max-width: 440px;
+            width: 90%;
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+            position: relative;
+            transform: scale(0.9) translateY(20px);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid rgba(255,255,255,0.8);
+        }
+
+        .modal-overlay.active .modal-box {
+            transform: scale(1) translateY(0);
+        }
+
+        /* Маленькая декоративная печенька вверху модалки */
+        .modal-box::before {
+            content: ' ✨ 🍪 ✨ ';
+            font-size: 1.8rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .modal-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+        }
+
+        .modal-desc {
+            font-size: 1rem;
+            color: #615347;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-weight: 400;
+        }
+
+        .modal-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #ffffff;
+            background: var(--text-dark);
+            padding: 8px 24px;
+            border-radius: 50px;
+            display: inline-block;
+            box-shadow: 0 6px 15px rgba(58, 42, 29, 0.2);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px; right: 24px;
+            font-size: 2rem;
+            color: var(--accent-gold);
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-weight: 300;
+            transition: color 0.2s;
+        }
+        .close-btn:hover { color: var(--text-dark); }
+
+        /* ЭЛЕГАНТНАЯ КНОПКА ЗАКАЗА WHATSAPP */
+        .order-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 14px;
+            background: #25D366;
+            color: white;
+            text-align: center;
+            padding: 20px 40px;
+            text-decoration: none;
+            border-radius: 100px;
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin: 40px auto 10px;
+            max-width: 420px;
+            box-shadow: 0 12px 30px rgba(37, 211, 102, 0.25);
+            transition: all 0.3s ease;
+        }
+
+        .order-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(37, 211, 102, 0.4);
+            background: #20ba5a;
+        }
+
+        .order-btn svg { width: 28px; height: 28px; fill: white; }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent-gold);
+            margin-top: auto;
+            font-weight: 500;
+        }
+
+        /* Адаптивность для экранов смартфонов */
+        @media (max-width: 600px) {
+            header { padding: 50px 15px 25px; }
+            h1 { font-size: 2.8rem; }
+            p.subtitle { font-size: 0.8rem; letter-spacing: 3px; }
+            .floating-cookie { display: none; } /* Отключаем летающие эмодзи на мобилках */
+            .container { padding: 0 12px 40px; }
+            .category-card { padding: 25px 18px; border-radius: 24px; margin-bottom: 20px; }
+            .category-title { font-size: 1.5rem; margin-bottom: 18px; }
+            .item-name { font-size: 0.95rem; }
+            .price { font-size: 0.95rem; padding: 5px 10px; border-radius: 12px; }
+            .order-btn { font-size: 1.1rem; padding: 16px 25px; }
+            .modal-box { padding: 35px 20px; border-radius: 28px; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo-wrapper">
+        <h1>LOONA🍪</span></h1>
+    </div>
+    <p class="subtitle">~where cozy begins~</p>
+</header>
+
+<div class="container">
+
+    <div class="category-card">
+        <div class="category-title">🧁 Капкейки</div>
+        <div class="menu-list">
+            <div class="menu-item" data-desc="Воздушный нежный бисквит с яркой начинкой из спелой малины и шапочкой из легкого крем-чиза.">
+                <span class="item-name">Малина</span> <span class="price">450 ₸</span>
+            </div>
+            <div class="menu-item" data-desc="Насыщенный шоколадный кекс со спелой пряной вишней внутри. Идеальный баланс сладкого и кислинки.">
+                <span class="item-name">Шоколад-вишня</span> <span class="price">450 ₸</span>
+            </div>
+            <div class="menu-item" data-desc="Легендарный бархатистый бисквит с нежным ванильным послевкусием и воздушным сырным кремом.">
+                <span class="item-name">Красный бархат</span> <span class="price">450 ₸</span>
+            </div>
+            <div class="menu-item" data-desc="Экзотический капкейк с добавлением японского чая матча и начинкой из ароматной домашней клубники.">
+                <span class="item-name">Матча-клубника</span> <span class="price">500 ₸</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="category-card">
+        <div class="category-title">🍰 Чизкейки</div>
+        <div class="menu-list">
+            <div class="menu-item" data-desc="Классический американский чизкейк на основе премиального творожного сыра и хрустящего песочного коржа.">
+                <span class="item-name">Нью-Йорк</span> <span class="price">9 000 ₸</span>
+            </div>
+            <div class="menu-item" data-desc="Изысканный чизкейк с добавлением натуральной фисташковой пасты. Бархатный, ореховый вкус.">
+                <span class="item-name">Фисташка</span> <span class="price">9 500 ₸</span>
+            </div>
+            <div class="menu-item" data-desc="Нежнейшая сливочная основа с ароматным соусом из спелой перетертой клубники.">
+                <span class="item-name">Клубника</span> <span class="price">9 500 ₸</span>
+            </div>
+            <div class="menu-item" data-desc="Сливочно-творожная основа с добавлением кусочков хрустящего шоколадного печенья.">
+                <span class="item-name">Печенье</span> <span class="price">9 500 ₸</span>
+            </div>
+            <div class="menu-item" data-desc="Чизкейк для сладкоежек: густая домашняя соленая карамель и много арахиса">
+                <span class="item-name">Сникерс</span> <span class="price">9 500 ₸</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="category-card">
+        <div class="category-title">🎂 Торты (от 1 кг)</div>
+        <div class="menu-list">
+            <div class="menu-item" data-desc="Тончайшие, тающие во рту молочные коржи, пропитанные нежным кремом, со свежими ягодами клубники.">
+                <span class="item-name">Молочная девочка с клубникой</span> <span class="price">8 000 ₸</span>
+            </div>
+            <div class="menu-item" data-desc="Классический домашний торт на основе натурального ароматного меда и легкого сметанного крема.">
+                <span class="item-name">Медовый</span> <span class="price">8 000 ₸</span>
+            </div>
+            <div class="menu-item" data-desc="Легкий фруктовый торт с прослойкой из спелого банана и сочного освежающего киви.">
+                <span class="item-name">Киви-банан</span> <span class="price">8 500 ₸</span>
+            </div>
+            <div class="menu-item" data-desc="Мега-популярный вкус: шоколадные коржи, нуга, карамель и хрустящий соленый арахис.">
+                <span class="item-name">Сникерс</span> <span class="price">8 500 ₸</span>
+            </div>
+            <div class="menu-item" data-desc="Пряные, невероятно сочные морковные коржи с добавлением орехов и нежнейший сливочный крем-чиз.">
+                <span class="item-name">Морковный</span> <span class="price">9 000 ₸</span>
+            </div>
+            <div class="menu-item" data-desc="Торт Вупи-пай: мега-шоколадные воздушные коржи и пышный, белоснежный сливочно-сметанный крем.">
+                <span class="item-name">Вупи</span> <span class="price">9 500 ₸</span>
+            </div>
+            <div class="menu-item" data-desc="Уникальный торт с насыщенным карамельным вкусом и прослойками фирменного хрустящего печенья.">
+                <span class="item-name">Карамель-печенье</span> <span class="price">9 500 ₸</span>
+            </div>
+            <div class="menu-item" data-desc="Тропическое безумие: шоколадные коржи, кислинка сочной вишни и нежный кокосовый мусс.">
+                <span class="item-name">Вишня-кокос</span> <span class="price">9 500 ₸</span>
+            </div>
+            <div class="menu-item" data-desc="Настоящий хит премиум-сегмента. Насыщенная фисташка в сочетании со спелой малиной.">
+                <span class="item-name">Фисташка-малина</span> <span class="price">10 000 ₸</span>
+            </div>
+            <div class="menu-item" data-desc="Шоколадный бисквит, крем на основе оригинального печенья Oreo и целый слой запеченного чизкейка внутри.">
+                <span class="item-name">Орео-чизкейк</span> <span class="price">10 000 ₸</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="category-card">
+        <div class="category-title">✨ Бенто-торты</div>
+        <div class="menu-list">
+            <div class="menu-item" data-desc="Мини-версия нашего главного хита: нежные коржи на сгущенном молоке с клубничным конфитюром.">
+                <span class="item-name">Молочная девочка с клубникой</span> <span class="price">4 500 ₸</span>
+            </div>
+            <div class="menu-item" data-desc="Маленький тортик для двоих с карамелью, арахисом и насыщенным шоколадным вкусом Сникерса.">
+                <span class="item-name">Сникерс</span> <span class="price">5 000 ₸</span>
+            </div>
+            <div class="menu-item" data-desc="Мини шоколадный Вупи пай в аккуратном эко-боксе. Идеально для подарка или знака внимания.">
+                <span class="item-name">Вупи</span> <span class="price">5 000 ₸</span>
+            </div>
+            <div class="menu-item" data-desc="Идеальная мини-комбинация яркой вишни и нежной стружки кокоса в шоколадном бисквите.">
+                <span class="item-name">Вишня-кокос</span> <span class="price">5 000 ₸</span>
+            </div>
+            <div class="menu-item" data-desc="Роскошный мини-торт: фисташковые коржи и яркий малиновый центр в фирменном оформлении.">
+                <span class="item-name">Фисташка-малина</span> <span class="price">5 500 ₸</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="category-card">
+        <div class="category-title">🍡 Моти</div>
+        <div class="menu-list">
+            <div class="menu-item" data-desc="Тягучее рисовое тесто со сливочным кремом и начинкой из банана и сладкой клубники.">
+                <span class="item-name">Клубника-банан</span> <span class="price">900 ₸</span>
+            </div>
+            <div class="menu-item" data-desc="Тропический взрыв: Сливочный крем со спелым манго и ароматной маракуйей.">
+                <span class="item-name">Тропик</span> <span class="price">900 ₸</span>
+            </div>
+            <div class="menu-item" data-desc="Супермягкое тесто с глубоким бархатным вкусом настоящего молочного шоколада.">
+                <span class="item-name">Шоколад</span> <span class="price">900 ₸</span>
+            </div>
+            <div class="menu-item" data-desc="Легкий японский десерт со вкусом кокосового молока и сочной вишневой серединкой.">
+                <span class="item-name">Вишня-кокос</span> <span class="price">900 ₸</span>
+            </div>
+            <div class="menu-item" data-desc="Сливочная начинка с добавлением хрустящих кусочков печенья Oreo.">
+                <span class="item-name">Печенье</span> <span class="price">950 ₸</span>
+            </div>
+            <div class="menu-item" data-desc="Благородная терпкость японского чая матча, сбалансированная сладкой малиной.">
+                <span class="item-name">Матча-малина</span> <span class="price">950 ₸</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="category-card">
+        <div class="category-title">🍪 Печенье</div>
+        <div class="menu-list">
+            <div class="menu-item" data-desc="Классическое американское печенье с большими кусочками тающего шоколада. Хрустящее снаружи, мягкое внутри.">
+                <span class="item-name">Классик</span> <span class="price">600 ₸</span>
+            </div>
+            <div class="menu-item" data-desc="Мега-шоколадное печенье с насыщенным вкусом влажного американского пирожного брауни.">
+                <span class="item-name">Брауни</span> <span class="price">600 ₸</span>
+            </div>
+            <div class="menu-item" data-desc="Нежное ароматное печенье со вкусом спелой клубники и кусочками белого шоколада.">
+                <span class="item-name">Клубника</span> <span class="price">750 ₸</span>
+            </div>
+            <div class="menu-item" data-desc="Эстетичное зеленое печенье с чаем матча, обладающее изысканным и неповторимым вкусом.">
+                <span class="item-name">Матча</span> <span class="price">750 ₸</span>
+            </div>
+        </div>
+    </div>
+
+<div class="modal-overlay" id="modalOverlay">
+    <div class="modal-box">
+        <button class="close-btn" id="closeBtn">&times;</button>
+        <div class="modal-title" id="modalTitle">Название десерта</div>
+        <div class="modal-desc" id="modalDesc">Описание.</div>
+        <div class="modal-price" id="modalPrice">0 ₸</div>
+        <!-- КНОПКА ЗАКАЗА ДОБАВЛЕНА СЮДА -->
+        <a href="#" class="order-btn" id="modalOrderBtn" target="_blank">
+            <svg viewBox="0 0 24 24">
+                <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.455L0 24zm6.59-4.846c1.66.986 3.292 1.48 5.41 1.481 5.482 0 9.938-4.46 9.941-9.94.002-2.655-1.022-5.15-2.884-7.013C17.25 1.819 14.76 .796 12.012.796c-5.484 0-9.94 4.462-9.943 9.94-.001 2.152.502 3.834 1.517 5.495L2.593 21.41l5.054-1.325zM17.51 14.8c-.29-.145-1.713-.846-1.978-.943-.265-.096-.458-.145-.65.145-.193.29-.747.942-.916 1.135-.168.193-.337.217-.627.072-2.825-1.413-4.662-3.144-5.556-4.686-.236-.408.364-.38 1.036-1.724.113-.223.056-.417-.028-.562-.084-.146-.747-1.8-.1-2.435-.224-.236-.443-.203-.65-.213-.168-.007-.361-.01-.554-.01-.193 0-.506.073-.77.362-.266.29-1.013.99-1.013 2.415 0 1.425 1.037 2.802 1.18 2.996.145.193 2.04 3.115 4.943 4.373.69.3 1.228.478 1.648.61.694.22 1.326.19 1.825.114.557-.084 1.713-.7 1.953-1.377.24-.677.24-1.256.17-1.377-.07-.122-.265-.193-.555-.338z"/>
+            </svg>
+            Заказать в WhatsApp
+        </a>
+    </div>
+</div>
+
+<footer>
+    &copy; 2026 Loona.cakes. baked with love 🤎
+</footer>
+
+<script>
+    // --- Логика модальных окон при клике ---
+    const menuItems = document.querySelectorAll('.menu-item');
+    const overlay = document.getElementById('modalOverlay');
+    const closeBtn = document.getElementById('closeBtn');
+
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDesc = document.getElementById('modalDesc');
+    const modalPrice = document.getElementById('modalPrice');
+    const modalOrderBtn = document.getElementById('modalOrderBtn'); // Нашли кнопку заказа
+
+    // ВАШ ТЕЛЕФОН ДЛЯ ЗАКАЗОВ (укажите ваш без знака +)
+    const whatsappPhone = "7067140965";
+
+    menuItems.forEach(item => {
+        item.addEventListener('click', () => {
+            const name = item.querySelector('.item-name').innerText;
+            const price = item.querySelector('.price').innerText;
+            const description = item.getAttribute('data-desc') || "Фирменный десерт, созданный вручную по секретной технологии из самых свежих и натуральных ингредиентов.";
+
+            modalTitle.innerText = name;
+            modalDesc.innerText = description;
+            modalPrice.innerText = price;
+
+            // Формируем текст сообщения для WhatsApp
+const categoryTitle = item.closest('.category-card')
+    .querySelector('.category-title')
+    .innerText;
+
+let productType = "десерт";
+
+if (categoryTitle.includes("Капкейки")) productType = "капкейк";
+else if (categoryTitle.includes("Чизкейки")) productType = "чизкейк";
+else if (categoryTitle.includes("Торты")) productType = "торт";
+else if (categoryTitle.includes("Бенто-торты")) productType = "бенто-торт";
+else if (categoryTitle.includes("Моти")) productType = "моти";
+else if (categoryTitle.includes("Печенье")) productType = "печенье";
+
+const messageText = `Здравствуйте! Я хочу заказать ${productType} "${name}" за ${price}`;
+ // Кодируем текст для ссылки
+            const encodedText = encodeURIComponent(messageText);
+            // Устанавливаем готовую ссылку в кнопку
+            modalOrderBtn.href = `https://wa.me/${whatsappPhone}?text=${encodedText}`;
+
+            overlay.classList.add('active');
+        });
+    });
+
+    closeBtn.addEventListener('click', () => overlay.classList.remove('active'));
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('active'); });
+
+</script>
+</body>
+</html>
